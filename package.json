@@ -1,0 +1,55 @@
+{
+  "name": "dns-host",
+  "version": "1.0.0",
+  "description": "伪域名解析",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder"
+  },
+  "author": {
+    "name": "yutent",
+    "email": "yutent@doui.cc"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "iofs": "^1.2.1"
+  },
+  "build": {
+    "appId": "dns.host",
+    "productName": "dns-host",
+    "copyright": "Copyright © 2019 ${author}",
+    "directories": {
+      "buildResources": "icons",
+      "output": "build"
+    },
+    "files": [
+      "src/**/*",
+      "node_modules/iofs/*"
+    ],
+    "mac": {
+      "category": "public.app-category.development",
+      "target": "dmg",
+      "icon": "icons/app.icns",
+      "darkModeSupport": false
+    },
+    "linux": {
+      "category": "Development",
+      "target": [
+        {
+          "target": "deb",
+          "arch": "x64"
+        },
+        {
+          "target": "AppImage",
+          "arch": "x64"
+        }
+      ],
+      "icon": "./icons/"
+    }
+  },
+  "devDependencies": {
+    "electron": "^6.0.5",
+    "electron-builder": "^21.2.0"
+  }
+}
