@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+  <title></title>
+  <link href="/lib/css/reset-basic.css" rel="stylesheet">
+  <link href="/css/app.css" rel="stylesheet">
+  <script src="/js/app.js" type="module"></script>
+</head>
+<body anot="app" class="do-fn-noselect">
+
+  <div class="layout-left">
+    <wc-scroll>
+      <ul class="domain-list">
+        <li 
+          class="item" 
+          :class="{active: it === curr}"
+          :for="it in domains"
+          @click="toggleDomain(it)">
+          <span :text="it"></span>
+          <wc-icon is="right"></wc-icon>
+        </li>
+        <li :if="domains.size() < 1" class="item blank">没有域名</li>
+      </ul>
+    </wc-scroll>
+    <section class="action">
+      <wc-button
+        title="新增域名"
+        color="blue"
+        circle icon="plus"
+        @active="addDomain"></wc-button>
+    </section>
+  </div>
+
+  <div class="layout-right">
+
+    <header class="toolbar">
+      <wc-button icon="plus" color="teal" @active="addRecord">新增记录</wc-button>
+      <wc-button icon="fly" color="blue" @active="save">保存</wc-button>
+    </header>
+    
+    <main class="main">
+      <header class="thead">
+        <span class="long">主机记录</span>
+        <span>记录类型</span>
+        <span class="long">记录值</span>
+        <span>操作</span>
+        <span>备注</span>
+      </header>
+      <wc-scroll ref="records">
+        <ul class="record-list">
+          <li class="item" :for="it in records">
+            <wc-input autofocus class="long" :duplex="it.record" label="根域请填 @"></wc-input>
+            <span>A</span>
+            <wc-input class="long" :duplex="it.value" label="请填写IP"></wc-input>
+            <section>
+              <wc-switch :duplex="it.enabled"></wc-switch>
+              <wc-button size="mini" color="red" @active="$remove">删除</wc-button>
+            </section>
+            <wc-input :duplex="it.remark"></wc-input>
+          </li>
+        </ul>
+      </wc-scroll>
+    </main>
+  </div>
+
+  
+
+  <div class="permission-error" :if="permissionShow">
+    <pre>
+/************************************************************/
+ *                   hosts文件没有写权限                      *
+/************************************************************/
+    </pre>
+    <fieldset>
+      <legend>操作指引</legend>
+      <dl>
+        <dt>MacOS用户</dt>
+        <dd>打开终端, 执行以下命令</dd>
+        <dd><code>sudo chown $USER:admin /etc/hosts</code></dd>
+
+        <dt>Linux用户</dt>
+        <dd>打开终端, 执行以下命令</dd>
+        <dd><code>sudo chown $USER: /etc/hosts</code></dd>
+
+        <dt>完成之后</dt>
+        <dd>点击下面的按钮重新检测.</dd>
+        <dd>
+          <wc-button color="red" size="mini" @active="check">权限检测</wc-button>
+        </dd>
+      </dl>
+    </fieldset>
+  </div>
+</body>
+</html>
