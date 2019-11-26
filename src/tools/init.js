@@ -60,18 +60,42 @@ ipcMain.on('dns-host', (ev, conn) => {
       var records = cache.split(/[\n\r]+/)
       var list = []
       var dict = {}
-      var tmp = {}
       records.forEach(str => {
         str = str.trim()
-        if (/^(#*?)\s*(\d+\.\d+\.\d+\.\d+)\s+(.*)/.test(str)) {
-          list.push({
-            ip: RegExp.$2,
-            domains: RegExp.$3,
-            enabled: !RegExp.$1
-          })
+        let matches = str.match(/^(#*?)\s*(\d+\.\d+\.\d+\.\d+)\s+(.*)/)
+
+        if (matches) {
+          let names = matches[3].split(/\s+/).map(it => it.trim())
+          let name
+          while ((name = names.pop())) {
+            list.push({ ip: matches[2], enabled: !matches[1], name })
+          }
         }
       })
       records = null
-      list.forEach(it => {})
+
+      list.forEach(it => {
+        it.name = it.name.split('.')
+        let domain = it.name.splice(-2, 2).join('.')
+        if (dict[domain]) {
+          dict[domain].push({
+            value: it.ip,
+            enabled: it.enabled,
+            record: it.name.join('.') || '@',
+            remark: ''
+          })
+        } else {
+          dict[domain] = [
+            {
+              value: it.ip,
+              enabled: it.enabled,
+              record: it.name.join('.') || '@',
+              remark: ''
+            }
+          ]
+        }
+      })
+      list = null
+      ev.returnValue = dict
   }
 })

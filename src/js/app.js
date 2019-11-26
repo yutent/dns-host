@@ -18,20 +18,15 @@ const WIN = remote.getCurrentWindow()
 
 const $doc = Anot(document)
 
+var dict = {}
+
 Anot({
   $id: 'app',
   state: {
     filter: '',
     curr: '', //当前选中的域名
     domains: [],
-    records: [
-      {
-        record: '',
-        value: '',
-        enabled: true,
-        remark: ''
-      }
-    ],
+    records: [],
     permissionShow: false
   },
   mounted() {
@@ -72,11 +67,19 @@ Anot({
     },
     toggleDomain(name) {
       this.curr = name
+      this.records = dict[name]
     },
     check() {
       var check = ipcRenderer.sendSync('dns-host', { type: 'check' })
 
       if (check) {
+        dict = ipcRenderer.sendSync('dns-host', { type: 'history' })
+
+        var tmp = []
+        for (var k in dict) {
+          tmp.push(k)
+        }
+        this.domains = tmp
       } else {
         this.permissionShow = true
       }
