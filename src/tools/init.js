@@ -11,6 +11,7 @@ const fs = require('iofs')
 const path = require('path')
 
 const HOST_FILE = path.resolve(app.getPath('userData'), 'host.cache')
+const LOCK_FILE = path.resolve(app.getPath('userData'), 'lock')
 
 if (!fs.exists(HOST_FILE)) {
   fs.echo('{}', HOST_FILE)
@@ -56,6 +57,12 @@ ipcMain.on('dns-host', (ev, conn) => {
       break
 
     case 'history':
+      if (fs.exists(LOCK_FILE)) {
+        var cache = fs.cat(HOST_FILE)
+        ev.returnValue = JSON.parse(cache)
+        return
+      }
+
       var cache = fs.cat('/etc/hosts').toString()
       var records = cache.split(/[\n\r]+/)
       var list = []
@@ -77,6 +84,10 @@ ipcMain.on('dns-host', (ev, conn) => {
       list.forEach(it => {
         it.name = it.name.split('.')
         let domain = it.name.splice(-2, 2).join('.')
+        if (domain === 'com.cn' || domain === 'org.cn' || domain === 'net.cn') {
+          domain = it.name.pop() + '.' + domain
+        }
+
         if (dict[domain]) {
           dict[domain].push({
             value: it.ip,
@@ -97,5 +108,7 @@ ipcMain.on('dns-host', (ev, conn) => {
       })
       list = null
       ev.returnValue = dict
+      fs.echo(JSON.stringify(dict), HOST_FILE)
+      fs.echo('', LOCK_FILE)
   }
 })
