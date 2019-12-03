@@ -118,6 +118,7 @@ Anot({
       if (this.curr) {
         dict[this.curr] = this.records.$model
         ipcRenderer.send('dns-host', { type: 'set', data: dict })
+        layer.toast('保存成功', 'success')
       }
     }
   }
