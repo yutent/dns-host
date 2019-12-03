@@ -43,7 +43,6 @@ ipcMain.on('dns-host', (ev, conn) => {
     case 'set':
       clearTimeout(timer)
       timer = setTimeout(() => {
-        fs.echo(JSON.stringify(conn.data), HOST_FILE)
         var txt = ''
         for (let k in conn.data) {
           for (let it of conn.data[k]) {
@@ -57,6 +56,7 @@ ipcMain.on('dns-host', (ev, conn) => {
           }
           txt += '\n\n'
         }
+        fs.echo(JSON.stringify(conn.data), HOST_FILE)
         fs.echo(txt, '/etc/hosts')
       }, 1000)
       break

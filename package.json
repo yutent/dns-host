@@ -1,6 +1,6 @@
 {
   "name": "dns-host",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "伪域名解析",
   "main": "src/main.js",
   "scripts": {

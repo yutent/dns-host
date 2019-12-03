@@ -37,7 +37,6 @@ Anot({
   watch: {},
   methods: {
     addRecord() {
-      log('---')
       if (this.curr) {
         this.records.unshift({
           record: '',
@@ -61,9 +60,11 @@ Anot({
         })
         .then(val => {
           this.domains.push(val)
+          dict[val] = []
           if (!this.curr) {
             this.toggleDomain(val)
           }
+          this.save()
         })
         .catch(Anot.noop)
     },
