@@ -56,7 +56,7 @@
             <span>A</span>
             <wc-input class="long" :duplex="it.value" label="请填写IP"></wc-input>
             <section>
-              <wc-switch :duplex="it.enabled"></wc-switch>
+              <wc-switch :duplex="it.enabled" @change="recordChanges(it)"></wc-switch>
               <wc-button size="mini" color="red" @active="$remove">删除</wc-button>
             </section>
             <wc-input :duplex="it.remark"></wc-input>

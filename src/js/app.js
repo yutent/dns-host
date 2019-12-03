@@ -19,6 +19,7 @@ const WIN = remote.getCurrentWindow()
 const $doc = Anot(document)
 
 var dict = {}
+var tmp_records = {}
 
 Anot({
   $id: 'app',
@@ -33,6 +34,7 @@ Anot({
     // this.$refs.preview.show()
     this.check()
   },
+  watch: {},
   methods: {
     addRecord() {
       log('---')
@@ -68,6 +70,17 @@ Anot({
     toggleDomain(name) {
       this.curr = name
       this.records = dict[name]
+      tmp_records = Object.create(null)
+      for (let it of this.records) {
+        if (tmp_records[it.record]) {
+          tmp_records[it.record].push(it)
+        } else {
+          tmp_records[it.record] = [it]
+        }
+      }
+      setTimeout(() => {
+        this.$refs.records.scrollTop = 0
+      }, 50)
     },
     check() {
       var check = ipcRenderer.sendSync('dns-host', { type: 'check' })
@@ -77,13 +90,34 @@ Anot({
 
         var tmp = []
         for (var k in dict) {
-          tmp.push(k)
+          if (k) {
+            tmp.push(k)
+          } else {
+            delete dict[k]
+          }
         }
         this.domains = tmp
       } else {
         this.permissionShow = true
       }
     },
-    save() {}
+    // 同一个记录, 允许一条被激活
+    recordChanges(item) {
+      if (item.enabled) {
+        if (tmp_records[item.record].length > 1) {
+          for (let it of tmp_records[item.record]) {
+            if (it.value !== item.value) {
+              it.enabled = false
+            }
+          }
+        }
+      }
+    },
+    save() {
+      if (this.curr) {
+        dict[this.curr] = this.records.$model
+        ipcRenderer.send('dns-host', { type: 'set', data: dict })
+      }
+    }
   }
 })

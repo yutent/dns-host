@@ -44,7 +44,21 @@ ipcMain.on('dns-host', (ev, conn) => {
       clearTimeout(timer)
       timer = setTimeout(() => {
         fs.echo(JSON.stringify(conn.data), HOST_FILE)
-      }, 2000)
+        var txt = ''
+        for (let k in conn.data) {
+          for (let it of conn.data[k]) {
+            if (it.enabled) {
+              var name = it.record === '@' ? '' : it.record
+              if (name) {
+                name += '.'
+              }
+              txt += `${it.value.padEnd(15, ' ')}    ${name + k}\n`
+            }
+          }
+          txt += '\n\n'
+        }
+        fs.echo(txt, '/etc/hosts')
+      }, 1000)
       break
 
     case 'check':

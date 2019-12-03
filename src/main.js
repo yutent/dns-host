@@ -66,7 +66,7 @@ app.once('ready', () => {
     win = null
   })
 
-  win.openDevTools()
+  // win.openDevTools()
 
   // 然后加载应用的 index.html
   win.loadURL('app://local/index.html')
