@@ -38,7 +38,7 @@ body {
 
       &:hover,
       &.active {background:nth($cd, 1);}
-      &.active {border-left:.3rem solid nth($co, 1);}
+      &.active {border-left:.3rem solid nth($co, 1);color:nth($co, 1);font-weight:bold;}
       &.blank {
         justify-content:center;cursor:default;
         &:hover {background:none;}
@@ -93,8 +93,8 @@ body {
       wc-input,span,section {flex:1;}
       .long {flex:1.5;}
       section {display:flex;align-items:center;justify-content:center;}
+      wc-button {margin-left:.5rem;}
 
-      &:hover {background:nth($cp, 1);}
       &:last-child {border-bottom:none;}
     }
   }
@@ -132,3 +132,17 @@ body {
   &.show {display:flex;}
 }
 
+
+.context-menu {
+  display:flex;
+  flex-direction:column;
+  width:10rem;
+  padding:.5rem 0;
+  background:#fff;
+
+  .item {
+    height:3rem;line-height:3rem;padding:0 1.5rem;cursor:pointer;
+
+    &:hover {background:#f2f5fc;}
+  }
+}

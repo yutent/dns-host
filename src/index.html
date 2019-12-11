@@ -13,11 +13,12 @@
 
   <div class="layout-left">
     <wc-scroll>
-      <ul class="domain-list">
+      <ul class="domain-list" @contextmenu="showMenu">
         <li 
           class="item" 
-          :class="{active: it === curr}"
+          :class="{active: it === activeDomain}"
           :for="it in domains"
+          :data-name="it"
           @click="toggleDomain(it)">
           <span :text="it"></span>
           <wc-icon is="right"></wc-icon>
@@ -44,22 +45,23 @@
     <main class="main">
       <header class="thead">
         <span class="long">主机记录</span>
-        <span>记录类型</span>
+        <span>类型</span>
         <span class="long">记录值</span>
-        <span>操作</span>
+        <span class="long">操作</span>
         <span>备注</span>
       </header>
       <wc-scroll ref="records">
         <ul class="record-list">
           <li class="item" :for="it in records">
-            <wc-input autofocus class="long" :duplex="it.record" label="根域请填 @"></wc-input>
+            <wc-input auto-border autofocus class="long" @change="updateCacheDict(it)" :duplex="it.record" label="根域请填 @"></wc-input>
             <span>A</span>
-            <wc-input class="long" :duplex="it.value" label="请填写IP"></wc-input>
-            <section>
+            <wc-input auto-border class="long" :duplex="it.value" label="请填写IP"></wc-input>
+            <section class="long">
               <wc-switch :duplex="it.enabled" @change="recordChanges(it)"></wc-switch>
               <wc-button size="mini" color="red" @active="$remove">删除</wc-button>
+              <wc-button size="mini" color="blue" @active="clone(it)">克隆</wc-button>
             </section>
-            <wc-input :duplex="it.remark"></wc-input>
+            <wc-input auto-border :duplex="it.remark"></wc-input>
           </li>
         </ul>
       </wc-scroll>
@@ -93,5 +95,12 @@
       </dl>
     </fieldset>
   </div>
+
+  <wc-layer ref="context" left="100px" top="0" radius="0">
+    <ul class="context-menu" @click="confirmAction">
+      <li class="item" data-act="del">删除域名</li>
+      <li class="item" data-act="edit">修改域名</li>
+    </ul>
+  </wc-layer>
 </body>
 </html>
