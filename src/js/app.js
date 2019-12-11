@@ -126,6 +126,7 @@ Anot({
             .then(res => {
               delete dict[this.editDomain]
               this.domains.remove(this.editDomain)
+              this.activeDomain = ''
               this.editDomain = ''
               this.records.clear()
               this.save()
@@ -148,6 +149,7 @@ Anot({
               this.domains.set(idx, val)
               dict[val] = dict[this.editDomain]
               delete dict[this.editDomain]
+              this.activeDomain = ''
               this.editDomain = ''
               this.save()
               this.toggleDomain(val)
