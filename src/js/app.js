@@ -75,7 +75,7 @@ Anot({
     },
     toggleDomain(name) {
       this.activeDomain = name
-      this.records = dict[name]
+      this.records = dict[name].sort((a, b) => a.record.localeCompare(b.record))
       tmp_records = Object.create(null)
       for (let it of this.records) {
         if (tmp_records[it.record]) {
