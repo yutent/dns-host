@@ -84,7 +84,7 @@ Anot({
           tmp_records[it.record] = [it]
         }
       }
-      document.title = `伪域名解析「 ${name} 」`
+      document.title = `伪域名解析   ${name} `
       setTimeout(() => {
         this.$refs.records.scrollTop = 0
       }, 50)
