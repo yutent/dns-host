@@ -9,7 +9,7 @@ import '/lib/form/button.js'
 import '/lib/form/input.js'
 import '/lib/form/switch.js'
 import layer from '/lib/layer/index.js'
-import { clickOutside } from '/lib/utils.js'
+import Utils from '/lib/utils.js'
 
 const log = console.log
 
@@ -35,7 +35,7 @@ Anot({
   mounted() {
     // this.$refs.context.show()
     this.check()
-    clickOutside(this.$refs.context, ev => {
+    Utils.outside(this.$refs.context, ev => {
       this.$refs.context.close()
     })
   },
