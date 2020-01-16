@@ -26,7 +26,7 @@ Anot({
   $id: 'app',
   state: {
     filter: '',
-    activeDomain: '', //当前选中的域名
+    activeDomain: Anot.ls('last_domain') || '', //当前选中的域名
     editDomain: '', // 当前临时要编辑的域名, 即右键菜单选择到的
     domains: [],
     records: [],
@@ -51,7 +51,7 @@ Anot({
         })
         this.$refs.records.scrollTop = 0
       } else {
-        layer.toast('请先选择域名')
+        layer.toast('请先选择域名', 'warn')
       }
     },
     addDomain() {
@@ -85,6 +85,7 @@ Anot({
         }
       }
       document.title = `伪域名解析   ${name} `
+      Anot.ls('last_domain', name)
       setTimeout(() => {
         this.$refs.records.scrollTop = 0
       }, 50)
@@ -173,6 +174,8 @@ Anot({
           }
         }
         this.domains = tmp
+
+        this.toggleDomain(Anot.ls('last_domain') || '')
       } else {
         this.permissionShow = true
       }
@@ -195,6 +198,8 @@ Anot({
       params.enabled = false
 
       this.records.unshift(params)
+      tmp_records[params.record].push(this.records[0])
+
       this.$refs.records.scrollTop = 0
     },
     // 同一个记录, 允许一条被激活

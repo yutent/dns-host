@@ -1,6 +1,6 @@
 {
   "name": "dns-host",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "伪域名解析",
   "main": "src/main.js",
   "scripts": {
@@ -26,7 +26,10 @@
       "buildResources": "icons",
       "output": "build"
     },
-    "files": ["src/**/*", "node_modules/iofs/*"],
+    "files": [
+      "src/**/*",
+      "node_modules/iofs/*"
+    ],
     "mac": {
       "category": "public.app-category.developer-tools",
       "target": "dmg",

@@ -9,7 +9,7 @@
 @import "./var.scss";
 
 
-html {font-size:1vw;width:100%;height:100%;}
+html {font-size:1vw;width:100%;height:100vh;}
 body {
   position:fixed;left:0;top:0;
   display:flex;
@@ -20,7 +20,7 @@ body {
 
 .layout-left {
   display:flex;flex-direction:column;
-  width:18rem;height:64rem;
+  width:18rem;height:100vh;
   background:nth($cd, 2);
 
   wc-scroll {flex:1;}
