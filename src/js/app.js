@@ -57,7 +57,7 @@ Anot({
     addDomain() {
       layer
         .prompt('请输入根域名', function(val, done) {
-          if (/^[\w.]+\.[a-z]+$/.test(val)) {
+          if (val === 'localhost' || /^[\w.\-]+\.[a-z]+$/.test(val)) {
             done()
           } else {
             layer.toast('域名格式错误', 'error')
