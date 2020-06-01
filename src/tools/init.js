@@ -62,12 +62,8 @@ ipcMain.on('dns-host', (ev, conn) => {
       break
 
     case 'check':
-      try {
-        var stat = fs.echo('', '/etc/hosts', true)
-        ev.returnValue = true
-      } catch (e) {
-        ev.returnValue = false
-      }
+      var stat = fs.echo('', '/etc/hosts', true)
+      ev.returnValue = stat
       break
 
     case 'history':

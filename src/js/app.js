@@ -174,7 +174,7 @@ Anot({
           }
         }
         this.domains = tmp
-
+        this.permissionShow = false
         this.toggleDomain(Anot.ls('last_domain') || '')
       } else {
         this.permissionShow = true
