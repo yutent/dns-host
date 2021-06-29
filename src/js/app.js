@@ -13,9 +13,7 @@ import Utils from '/lib/utils.js'
 
 const log = console.log
 
-const { remote, ipcRenderer } = require('electron')
-
-const WIN = remote.getCurrentWindow()
+const { ipcRenderer } = require('electron')
 
 const $doc = Anot(document)
 
