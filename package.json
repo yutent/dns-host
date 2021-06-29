@@ -27,7 +27,7 @@
       "output": "build"
     },
     "electronDownload": {
-      "version": "9.0.0",
+      "version": "9.4.4",
       "mirror": "https://npm.taobao.org/mirrors/electron/"
     },
     "files": ["src/**/*", "node_modules/iofs/*"],
@@ -49,7 +49,7 @@
     }
   },
   "devDependencies": {
-    "electron": "^9.0.0",
-    "electron-builder": "^22.7.0"
+    "electron": "9.4.4",
+    "electron-builder": "22.7.0"
   }
 }
